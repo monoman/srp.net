@@ -1,5 +1,5 @@
-﻿namespace System {
-    using System.Reflection;
+namespace System; 
+using System.Reflection;
 
 #if NETCOREAPP_10
 
@@ -18,11 +18,10 @@
 
 #else
 
-    public static class TypeExtensions {
-        public static Assembly GetAssembly(this Type type) {
-            return type.Assembly;
-        }
+public static class TypeExtensions {
+    public static Assembly GetAssembly(this Type type) {
+        return type.Assembly;
     }
+}
 
 #endif
-}

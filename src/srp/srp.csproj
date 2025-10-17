@@ -5,14 +5,16 @@
         <AssemblyTitle>srp</AssemblyTitle>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
         <FileVersion>$(Version).0</FileVersion>
+        <IsPackable>true</IsPackable>
         <Authors>Alexey Yakovlev</Authors>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <AssemblyName>srp</AssemblyName>
         <PackageId>srp</PackageId>
         <PackageTags>srp;srp-6a;security;authentication</PackageTags>
-        <PackageIconUrl>https://raw.githubusercontent.com/secure-remote-password/srp.net/master/images/srp.net.png</PackageIconUrl>
+        <PackageIcon>srp.net.png</PackageIcon>
         <PackageProjectUrl>https://github.com/secure-remote-password/srp.net</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/secure-remote-password/srp.net/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/secure-remote-password/srp.net</RepositoryUrl>
         <SignAssembly>true</SignAssembly>
@@ -23,11 +25,14 @@
         <CodeAnalysisRuleSet>..\srp.ruleset</CodeAnalysisRuleSet>
         <BaseOutputPath>..\..\bin\</BaseOutputPath>
     </PropertyGroup>
-
     <ItemGroup>
-        <Using Include="System.Security"/>
-        <Using Include="System.Security.Cryptography"/>
-        <Using Include="System.Text"/>
+        <None Include="..\..\images\srp.net.png" Link="srp.net.png" Pack="true" PackagePath="\" />
+        <None Include="..\..\README.md" Link="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+    <ItemGroup>
+        <Using Include="System.Security" />
+        <Using Include="System.Security.Cryptography" />
+        <Using Include="System.Text" />
     </ItemGroup>
 
     <ItemGroup>
@@ -38,5 +43,14 @@
         <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
         <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
     </ItemGroup>
-
+    <Target Name="PublishLocally" AfterTargets="Pack" Condition="Exists('$(NUGET_PACKAGES)')">
+        <ItemGroup>
+            <NugetPackages Include="$(PackageOutputAbsolutePath)\*$(Version).nupkg" />
+        </ItemGroup>
+        <Message Importance="high" Text="Publish to Local Nugets Folder '$(NUGET_PACKAGES)'" />
+        <Copy DestinationFolder="$(NUGET_PACKAGES)" SourceFiles="@(NugetPackages)" ContinueOnError="true" SkipUnchangedFiles="false">
+            <Output TaskParameter="CopiedFiles" PropertyName="CopiedNugets" />
+        </Copy>
+        <Message Importance="high" Text="Copied '$(CopiedNugets)'" Condition="Exists('$(CopiedNugets)')" />
+    </Target>
 </Project>

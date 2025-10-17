@@ -1,4 +1,4 @@
-namespace Blake2s.Exceptions; 
+namespace Blake2s.Exceptions;
 public class PersonalOutOfRangeException : ArgumentOutOfRangeException {
     public PersonalOutOfRangeException() {
     }

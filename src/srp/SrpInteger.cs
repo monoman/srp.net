@@ -136,7 +136,7 @@ public partial class SrpInteger : IEquatable<SrpInteger> {
     /// </remarks>
     public byte[] ToByteArray() {
         byte[] array = [.. Value.ToByteArray().Reverse().SkipWhile(static v => v == 0)];
-        if (!HexLength.HasValue || HexLength.Value <= array.Length * 2) 
+        if (!HexLength.HasValue || HexLength.Value <= array.Length * 2)
             // no padding required
             return array;
         // pad with leading zeros
@@ -261,7 +261,7 @@ public partial class SrpInteger : IEquatable<SrpInteger> {
     /// </summary>
     /// <param name="bytes">The array of bytes.</param>
     public static SrpInteger FromByteArray(byte[] bytes) {
-        if (bytes == null || bytes.Length == 0) 
+        if (bytes == null || bytes.Length == 0)
             return Zero;
 
         // convert to little-endian for BigInteger
@@ -270,7 +270,7 @@ public partial class SrpInteger : IEquatable<SrpInteger> {
 
         // handle negative values
         BigInteger value = new(bytes);
-        if (value < 0) 
+        if (value < 0)
             value = (BigInteger.One << (bytes.Length * 8)) + value;
 
         return new SrpInteger
@@ -296,7 +296,7 @@ public partial class SrpInteger : IEquatable<SrpInteger> {
     /// <inheritdoc/>
     public override string ToString() {
         string hex = Value.ToString("x");
-        if (hex.Length > 16) 
+        if (hex.Length > 16)
             hex = string.Concat(hex.AsSpan(0, 16), "...");
         return $"<SrpInteger: {hex}>";
     }

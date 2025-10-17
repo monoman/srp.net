@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 using NUnit.Framework;
 
-namespace SecureRemotePassword.Tests; 
+namespace SecureRemotePassword.Tests;
 using HashFunc = SrpParameters.SrpHashFunction;
 
 /// <summary>

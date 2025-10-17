@@ -2,7 +2,7 @@ using System.Security;
 
 using NUnit.Framework;
 
-namespace SecureRemotePassword.Tests; 
+namespace SecureRemotePassword.Tests;
 /// <summary>
 /// <see cref="SrpServer"/> tests.
 ///</summary>

@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 using StringPair = System.Collections.Generic.KeyValuePair<string, string>;
 
-namespace SecureRemotePassword.Tests; 
+namespace SecureRemotePassword.Tests;
 /// <summary>
 /// <see cref="SrpServer"/> tests.
 ///</summary>

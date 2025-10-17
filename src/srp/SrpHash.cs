@@ -69,11 +69,11 @@ public class SrpHash : ISrpHash {
     private static byte[] EmptyBuffer { get; } = [];
 
     private static byte[] GetBytes(object obj) {
-        if (obj == null) 
+        if (obj == null)
             return EmptyBuffer;
 
         string? value = obj as string;
-        if (!string.IsNullOrEmpty(value)) 
+        if (!string.IsNullOrEmpty(value))
             return Encoding.UTF8.GetBytes(value);
 
         SrpInteger? integer = obj as SrpInteger;

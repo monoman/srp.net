@@ -4,7 +4,7 @@ using Blake2s;
 
 using Blake2Sharp;
 
-namespace SecureRemotePassword.Tests; 
+namespace SecureRemotePassword.Tests;
 /// <summary>
 /// Describes the set of test vectors for the Srp validation.
 /// </summary>

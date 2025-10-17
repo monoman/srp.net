@@ -43,7 +43,7 @@
         <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
         <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
     </ItemGroup>
-    <Target Name="PublishLocally" AfterTargets="Pack" Condition="Exists('$(NUGET_PACKAGES)')">
+    <Target Name="PublishLocally" AfterTargets="Build" DependsOnTargets="Pack" Condition="Exists('$(NUGET_PACKAGES)')">
         <ItemGroup>
             <NugetPackages Include="$(PackageOutputAbsolutePath)\*$(Version).nupkg" />
         </ItemGroup>

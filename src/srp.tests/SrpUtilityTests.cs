@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Security.Cryptography;
 
 using NUnit.Framework;
@@ -69,8 +68,8 @@ public class SrpUtilityTests {
         Assert.That(parameters.IsValidVerifier(verifier), Is.True);
 
         // invalid examples
-        Assert.That(parameters.IsValidSalt(null), Is.False);
-        Assert.That(parameters.IsValidVerifier(null), Is.False);
+        Assert.That(parameters.IsValidSalt(null!), Is.False);
+        Assert.That(parameters.IsValidVerifier(null!), Is.False);
         Assert.That(parameters.IsValidSalt("123"), Is.False);
         Assert.That(parameters.IsValidVerifier("123"), Is.False);
         Assert.That(parameters.IsValidSalt(salt + "01"), Is.False);

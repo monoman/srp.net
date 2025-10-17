@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-
 namespace SecureRemotePassword;
 /// <summary>
 /// Hashing algorithm for the SRP-6a protocol.
@@ -14,7 +8,7 @@ public class SrpHash : ISrpHash {
     /// </summary>
     /// <param name="hasherFactory">The hashing algorithm factory method.</param>
     /// <param name="algorithmName">The name of the algorithm.</param>
-    public SrpHash(Func<HashAlgorithm> hasherFactory, string algorithmName = null) {
+    public SrpHash(Func<HashAlgorithm> hasherFactory, string? algorithmName = null) {
         HasherFactory = hasherFactory;
         AlgorithmName = algorithmName ?? Hasher.GetType().Name;
     }
@@ -43,10 +37,6 @@ public class SrpHash : ISrpHash {
     private SrpInteger ComputeHash(byte[] data) {
         byte[] hash = Hasher.ComputeHash(data);
         return SrpInteger.FromByteArray(hash);
-
-        // should yield the same result:
-        // var hex = hash.Aggregate(new StringBuilder(), (sb, b) => sb.Append(b.ToString("X2")), sb => sb.ToString());
-        // return SrpInteger.FromHex(hex);
     }
 
     /// <summary>
@@ -54,15 +44,7 @@ public class SrpHash : ISrpHash {
     /// </summary>
     /// <param name="algorithm">The name of the hashing algorithm.</param>
     public static HashAlgorithm CreateHasher(string algorithm) {
-        HashAlgorithm result = default(HashAlgorithm);
-
-        // CryptoConfig is not available on .NET Standard 1.6 or browser runtimes.
-        result = (HashAlgorithm)CryptoConfig.CreateFromName(algorithm);
-#if USE_CRYPTO_CONFIG
-        if (result == null) {
-            result = (HashAlgorithm)System.Security.Cryptography.CryptoConfig.CreateFromName(algorithm);
-        }
-#endif
+        HashAlgorithm? result = (HashAlgorithm?)CryptoConfig.CreateFromName(algorithm);
         if (result == null) {
             switch (algorithm.ToLowerInvariant()) {
                 case "md5":
@@ -81,24 +63,21 @@ public class SrpHash : ISrpHash {
                     return SHA512.Create();
             }
         }
-
-        return result;
+        return result!;
     }
 
-    private static byte[] EmptyBuffer { get; } = new byte[0];
+    private static byte[] EmptyBuffer { get; } = [];
 
     private static byte[] GetBytes(object obj) {
-        if (obj == null) {
+        if (obj == null) 
             return EmptyBuffer;
-        }
 
-        string value = obj as string;
-        if (!string.IsNullOrEmpty(value)) {
+        string? value = obj as string;
+        if (!string.IsNullOrEmpty(value)) 
             return Encoding.UTF8.GetBytes(value);
-        }
 
-        SrpInteger integer = obj as SrpInteger;
-        return integer != null ? integer.ToByteArray() : EmptyBuffer;
+        SrpInteger? integer = obj as SrpInteger;
+        return integer is not null ? integer.ToByteArray() : EmptyBuffer;
     }
 
     private static byte[] Combine(IEnumerable<byte[]> arrays) {

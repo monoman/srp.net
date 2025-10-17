@@ -1,8 +1,5 @@
-using System;
 using System.Globalization;
-using System.Linq;
 using System.Numerics;
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
 namespace SecureRemotePassword;
@@ -10,7 +7,7 @@ namespace SecureRemotePassword;
 /// A thin wrapper over the <see cref="BigInteger"/> class
 /// represented as a fixed-length hexadecimal string (optional).
 /// </summary>
-public class SrpInteger : IEquatable<SrpInteger> {
+public partial class SrpInteger : IEquatable<SrpInteger> {
     /// <summary>
     /// Initializes a new instance of the <see cref="SrpInteger"/> class.
     /// </summary>
@@ -20,7 +17,7 @@ public class SrpInteger : IEquatable<SrpInteger> {
         hex = NormalizeWhitespace(hex);
         HexLength = hexLength;
 
-        int sign = hex.StartsWith("-") ? -1 : 1;
+        int sign = hex.StartsWith('-') ? -1 : 1;
         hex = hex.TrimStart('-');
 
         // append leading zero to make sure we get a positive BigInteger value
@@ -39,8 +36,8 @@ public class SrpInteger : IEquatable<SrpInteger> {
     /// Normalizes the whitespace.
     /// </summary>
     /// <param name="hexNumber">The hexadecimal number.</param>
-    private static string NormalizeWhitespace(string hexNumber) =>
-        Regex.Replace(hexNumber ?? string.Empty, @"[\s_]", string.Empty);
+    private static string NormalizeWhitespace(string? hexNumber) =>
+        MaskRegex().Replace(hexNumber ?? string.Empty, string.Empty);
 
     /// <summary>
     /// Gets the <see cref="SrpInteger"/> value representing 0.
@@ -138,12 +135,10 @@ public class SrpInteger : IEquatable<SrpInteger> {
     /// Pads the resulting value with leading zeros to match the HexLength property.
     /// </remarks>
     public byte[] ToByteArray() {
-        byte[] array = Value.ToByteArray().Reverse().SkipWhile(v => v == 0).ToArray();
-        if (!HexLength.HasValue || HexLength.Value <= array.Length * 2) {
+        byte[] array = [.. Value.ToByteArray().Reverse().SkipWhile(static v => v == 0)];
+        if (!HexLength.HasValue || HexLength.Value <= array.Length * 2) 
             // no padding required
             return array;
-        }
-
         // pad with leading zeros
         int length = HexLength.Value / 2;
         byte[] result = new byte[length];
@@ -200,97 +195,83 @@ public class SrpInteger : IEquatable<SrpInteger> {
     /// </summary>
     /// <param name="left">The left.</param>
     /// <param name="right">The right.</param>
-    public static SrpInteger operator -(SrpInteger left, SrpInteger right) {
-        return new SrpInteger
-        {
-            Value = left.Value - right.Value,
-            HexLength = Max(left.HexLength, right.HexLength),
-        };
-    }
+    public static SrpInteger operator -(SrpInteger left, SrpInteger right) => new()
+    {
+        Value = left.Value - right.Value,
+        HexLength = Max(left.HexLength, right.HexLength),
+    };
 
     /// <summary>
     /// Implements the operator +.
     /// </summary>
     /// <param name="left">The left.</param>
     /// <param name="right">The right.</param>
-    public static SrpInteger operator +(SrpInteger left, SrpInteger right) {
-        return new SrpInteger
-        {
-            Value = left.Value + right.Value,
-            HexLength = Max(left.HexLength, right.HexLength),
-        };
-    }
+    public static SrpInteger operator +(SrpInteger left, SrpInteger right) => new()
+    {
+        Value = left.Value + right.Value,
+        HexLength = Max(left.HexLength, right.HexLength),
+    };
 
     /// <summary>
     /// Implements the operator /.
     /// </summary>
     /// <param name="dividend">The dividend.</param>
     /// <param name="divisor">The divisor.</param>
-    public static SrpInteger operator /(SrpInteger dividend, SrpInteger divisor) {
-        return new SrpInteger
-        {
-            Value = dividend.Value / divisor.Value,
-            HexLength = Max(dividend.HexLength, divisor.HexLength),
-        };
-    }
+    public static SrpInteger operator /(SrpInteger dividend, SrpInteger divisor) => new()
+    {
+        Value = dividend.Value / divisor.Value,
+        HexLength = Max(dividend.HexLength, divisor.HexLength),
+    };
 
     /// <summary>
     /// Implements the operator %.
     /// </summary>
     /// <param name="dividend">The dividend.</param>
     /// <param name="modulus">The modulus.</param>
-    public static SrpInteger operator %(SrpInteger dividend, SrpInteger modulus) {
-        return new SrpInteger
-        {
-            Value = dividend.Value % modulus.Value,
-            HexLength = modulus.HexLength,
-        };
-    }
+    public static SrpInteger operator %(SrpInteger dividend, SrpInteger modulus) => new()
+    {
+        Value = dividend.Value % modulus.Value,
+        HexLength = modulus.HexLength,
+    };
 
     /// <summary>
     /// Implements the operator *.
     /// </summary>
     /// <param name="left">The left.</param>
     /// <param name="right">The right.</param>
-    public static SrpInteger operator *(SrpInteger left, SrpInteger right) {
-        return new SrpInteger
-        {
-            Value = left.Value * right.Value,
-            HexLength = null, // the padding is lost
-        };
-    }
+    public static SrpInteger operator *(SrpInteger left, SrpInteger right) => new()
+    {
+        Value = left.Value * right.Value,
+        HexLength = null, // the padding is lost
+    };
 
     /// <summary>
     /// Implements the operator ^ (xor).
     /// </summary>
     /// <param name="left">The left.</param>
     /// <param name="right">The right.</param>
-    public static SrpInteger operator ^(SrpInteger left, SrpInteger right) {
-        return new SrpInteger
-        {
-            Value = left.Value ^ right.Value,
-            HexLength = Max(left.HexLength, right.HexLength),
-        };
-    }
+    public static SrpInteger operator ^(SrpInteger left, SrpInteger right) => new()
+    {
+        Value = left.Value ^ right.Value,
+        HexLength = Max(left.HexLength, right.HexLength),
+    };
 
     /// <summary>
     /// Returns a new <see cref="SrpInteger"/> instance from the given array of bytes.
     /// </summary>
     /// <param name="bytes">The array of bytes.</param>
     public static SrpInteger FromByteArray(byte[] bytes) {
-        if (bytes == null || bytes.Length == 0) {
+        if (bytes == null || bytes.Length == 0) 
             return Zero;
-        }
 
         // convert to little-endian for BigInteger
-        bytes = bytes.ToArray();
+        bytes = [.. bytes];
         Array.Reverse(bytes);
 
         // handle negative values
         BigInteger value = new(bytes);
-        if (value < 0) {
+        if (value < 0) 
             value = (BigInteger.One << (bytes.Length * 8)) + value;
-        }
 
         return new SrpInteger
         {
@@ -315,19 +296,20 @@ public class SrpInteger : IEquatable<SrpInteger> {
     /// <inheritdoc/>
     public override string ToString() {
         string hex = Value.ToString("x");
-        if (hex.Length > 16) {
-            hex = hex.Substring(0, 16) + "...";
-        }
-
+        if (hex.Length > 16) 
+            hex = string.Concat(hex.AsSpan(0, 16), "...");
         return $"<SrpInteger: {hex}>";
     }
 
     /// <inheritdoc/>
-    public bool Equals(SrpInteger other) => other != null && Value == other.Value; // ignore HexLength
+    public bool Equals(SrpInteger? other) => other is not null && Value == other.Value; // ignore HexLength
 
     /// <inheritdoc/>
-    public override bool Equals(object obj) => Equals(obj as SrpInteger);
+    public override bool Equals(object? obj) => Equals(obj as SrpInteger);
 
     /// <inheritdoc/>
     public override int GetHashCode() => Value.GetHashCode();
+
+    [GeneratedRegex(@"[\s_]")]
+    private static partial Regex MaskRegex();
 }

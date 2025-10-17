@@ -1,67 +1,42 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <Description>SRP-6a protocol implementation for .NET 9.0+</Description>
-    <Copyright>Copyright © 2018-2022 Alexey Yakovlev</Copyright>
-    <AssemblyTitle>srp</AssemblyTitle>
-    <Version>1.1.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>$(Version).0</FileVersion>
-    <Authors>Alexey Yakovlev</Authors>
-    <TargetFrameworks>net9.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyName>srp</AssemblyName>
-    <PackageId>srp</PackageId>
-    <PackageTags>srp;srp-6a;security;authentication</PackageTags>
-    <PackageIconUrl>https://raw.githubusercontent.com/secure-remote-password/srp.net/master/images/srp.net.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/secure-remote-password/srp.net</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/secure-remote-password/srp.net/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/secure-remote-password/srp.net</RepositoryUrl>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\srp.snk</AssemblyOriginatorKeyFile>
-    <DebugType>full</DebugType>
-    <RootNamespace>SecureRemotePassword</RootNamespace>
-    <DefineConstants>$(DefineConstants);USE_CRYPTO_CONFIG</DefineConstants>
-    <PackageReleaseNotes>What's new:
+    <PropertyGroup>
+        <Description>SRP-6a protocol implementation for .NET 9.0+</Description>
+        <Copyright>Copyright © 2018-2022 Alexey Yakovlev</Copyright>
+        <AssemblyTitle>srp</AssemblyTitle>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>$(Version).0</FileVersion>
+        <Authors>Alexey Yakovlev</Authors>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <AssemblyName>srp</AssemblyName>
+        <PackageId>srp</PackageId>
+        <PackageTags>srp;srp-6a;security;authentication</PackageTags>
+        <PackageIconUrl>https://raw.githubusercontent.com/secure-remote-password/srp.net/master/images/srp.net.png</PackageIconUrl>
+        <PackageProjectUrl>https://github.com/secure-remote-password/srp.net</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/secure-remote-password/srp.net/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/secure-remote-password/srp.net</RepositoryUrl>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\srp.snk</AssemblyOriginatorKeyFile>
+        <DebugType>full</DebugType>
+        <RootNamespace>SecureRemotePassword</RootNamespace>
+        <DefineConstants>$(DefineConstants);USE_CRYPTO_CONFIG</DefineConstants>
+        <CodeAnalysisRuleSet>..\srp.ruleset</CodeAnalysisRuleSet>
+        <BaseOutputPath>..\..\bin\</BaseOutputPath>
+    </PropertyGroup>
 
-      v1.1.0:
-      - Moved to .Net 9.0+
+    <ItemGroup>
+        <Using Include="System.Security"/>
+        <Using Include="System.Security.Cryptography"/>
+        <Using Include="System.Text"/>
+    </ItemGroup>
 
-      v1.0.7:
-      — Added support for legacy SRP-3 and SRP-6 protocols.
-
-      v1.0.6:
-      — Added ISrpClient and ISrpServer interfaces.
-
-      v1.0.5:
-      — Added IsValidSalt and IsValidVerifier utility methods.
-
-      v1.0.4:
-      — Fixed padding issues in the arithmetic operations.
-
-      v1.0.3:
-      — Fixed SrpParameters thread safety issue.
-
-      v1.0.2:
-      — Fixed sha384/sha512 support in .NET Standard 1.6 version.
-
-      v1.0.1:
-      — Enabled .NET Standard 1.6 support.
-
-      v1.0.0:
-      — Initial release.
-    </PackageReleaseNotes>
-    <CodeAnalysisRuleSet>..\srp.ruleset</CodeAnalysisRuleSet>
-    <BaseOutputPath>..\..\bin\</BaseOutputPath>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Globalization" Version="4.3.0" />
-    <PackageReference Include="System.Linq" Version="4.3.0" />
-    <PackageReference Include="System.Runtime" Version="4.3.1" />
-    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
-    <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
-    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="System.Globalization" Version="4.3.0" />
+        <PackageReference Include="System.Linq" Version="4.3.0" />
+        <PackageReference Include="System.Runtime" Version="4.3.1" />
+        <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+        <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
+        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
+    </ItemGroup>
 
 </Project>

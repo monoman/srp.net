@@ -1,22 +1,17 @@
-using System.Security;
-
 namespace SecureRemotePassword;
 /// <summary>
 /// Server-side code of the SRP-6a protocol.
 /// </summary>
-public class SrpServer : ISrpServer {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SrpServer"/> class.
-    /// </summary>
-    /// <param name="parameters">The parameters of the SRP-6a protocol.</param>
-    public SrpServer(SrpParameters parameters = null) {
-        Parameters = parameters ?? new SrpParameters();
-    }
+/// <remarks>
+/// Initializes a new instance of the <see cref="SrpServer"/> class.
+/// </remarks>
+/// <param name="parameters">The parameters of the SRP-6a protocol.</param>
+public class SrpServer(SrpParameters? parameters = null) : ISrpServer {
 
     /// <summary>
     /// Gets or sets the protocol parameters.
     /// </summary>
-    internal SrpParameters Parameters { get; set; }
+    internal SrpParameters Parameters { get; set; } = parameters ?? new SrpParameters();
 
     /// <summary>
     /// Generates the ephemeral value from the given verifier.

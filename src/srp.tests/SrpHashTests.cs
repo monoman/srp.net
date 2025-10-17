@@ -101,6 +101,6 @@ public class SrpHashTests {
         SrpHash hash = new(() => MD5.Create());
         Assert.That(hash.AlgorithmName, Is.Not.Empty);
 
-        SrpInteger tmp = hash.ComputeHash(null, null, null);
+        SrpInteger tmp = hash.ComputeHash(null!, null!, null!);
     }
 }

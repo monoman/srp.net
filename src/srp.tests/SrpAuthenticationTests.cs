@@ -1,10 +1,6 @@
-using System;
-using System.Linq;
 using System.Security.Cryptography;
 
 using NUnit.Framework;
-
-using System.Threading.Tasks;
 
 namespace SecureRemotePassword.Tests; 
 /// <summary>
@@ -59,7 +55,7 @@ public class SrpAuthenticationTests {
         SrpAuthentication(username, password, SrpParameters.Create8192<T>());
     }
 
-    private static void SrpAuthentication(string username, string password, SrpParameters parameters = null) {
+    private static void SrpAuthentication(string username, string password, SrpParameters? parameters = null) {
         // use default parameters if not specified: sha256, 2048-bit prime number
         SrpClient client = new(parameters);
         SrpServer server = new(parameters);

@@ -1,0 +1,40 @@
+<Project>
+  <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
+  <PropertyGroup>
+      <TargetFramework>net9.0</TargetFramework>
+      <Version>1.1.0</Version>
+      <ImplicitUsings>enable</ImplicitUsings>
+      <Nullable>enable</Nullable>
+      <RootNamespace>SecureRemotePassword</RootNamespace>
+      <PackageReleaseNotes>
+          What's new:
+
+          v1.1.0:
+          - Moved to .Net 9.0+
+
+          v1.0.7:
+          — Added support for legacy SRP-3 and SRP-6 protocols.
+
+          v1.0.6:
+          — Added ISrpClient and ISrpServer interfaces.
+
+          v1.0.5:
+          — Added IsValidSalt and IsValidVerifier utility methods.
+
+          v1.0.4:
+          — Fixed padding issues in the arithmetic operations.
+
+          v1.0.3:
+          — Fixed SrpParameters thread safety issue.
+
+          v1.0.2:
+          — Fixed sha384/sha512 support in .NET Standard 1.6 version.
+
+          v1.0.1:
+          — Enabled .NET Standard 1.6 support.
+
+          v1.0.0:
+          — Initial release.
+      </PackageReleaseNotes>
+  </PropertyGroup>
+</Project>

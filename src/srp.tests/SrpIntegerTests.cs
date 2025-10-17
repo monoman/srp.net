@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Security.Cryptography;
 
 using NUnit.Framework;
@@ -38,7 +36,7 @@ public class SrpIntegerTests {
         Assert.That("00000a", Is.EqualTo(SrpInteger.FromHex("00000a").ToHex()));
 
         // zero
-        si = SrpInteger.FromHex(null);
+        si = SrpInteger.FromHex(null!);
         Assert.That(SrpInteger.Zero, Is.EqualTo(si));
 
         si = SrpInteger.FromHex(string.Empty);
@@ -215,7 +213,7 @@ public class SrpIntegerTests {
         si = SrpInteger.FromByteArray([0xfa, 0xc3]);
         Assert.That("fac3", Is.EqualTo(si.ToHex()));
 
-        si = SrpInteger.FromByteArray(null);
+        si = SrpInteger.FromByteArray(null!);
         Assert.That(SrpInteger.Zero, Is.EqualTo(si));
 
         si = SrpInteger.FromByteArray([]);

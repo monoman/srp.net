@@ -1,12 +1,10 @@
-using System;
-using System.IO;
 using System.Security.Cryptography;
 
 using Newtonsoft.Json;
 
 using NUnit.Framework;
 
-namespace SecureRemotePassword.Tests; 
+namespace SecureRemotePassword.Tests;
 /// <summary>
 /// Test class for SRP-6a protocol implementation.
 /// </summary>
@@ -18,26 +16,29 @@ public class SrpTestVectors {
     [Test]
     public void VerifyTestVectorsSrptools() => VerifyTestVectors("srptools");
 
-    private void VerifyTestVectors(string fileName) {
+    private static void VerifyTestVectors(string fileName) {
         string json = GetJsonResource(fileName);
-        TestVectorSet testVectors = JsonConvert.DeserializeObject<TestVectorSet>(json);
-        foreach (TestVectorSet.TestVector tv in testVectors.TestVectors) {
-            VerifyTestVector(tv);
-        }
+        TestVectorSet? testVectors = JsonConvert.DeserializeObject<TestVectorSet>(json);
+        if (testVectors is not null)
+            foreach (TestVectorSet.TestVector tv in testVectors.TestVectors)
+                VerifyTestVector(tv);
     }
 
-    private string GetJsonResource(string name) {
-        string nspace = typeof(SrpTestVectors).Namespace;
+    private static string GetJsonResource(string name) {
+        string? nspace = typeof(SrpTestVectors).Namespace;
         System.Reflection.Assembly assembly = typeof(SrpTestVectors).GetAssembly();
-        Stream rstream = assembly.GetManifestResourceStream($"{nspace}.TestVectors.{name}.json");
-        using (StreamReader streamReader = new(rstream)) {
-            return streamReader.ReadToEnd();
-        }
+        Stream? rstream = assembly.GetManifestResourceStream($"{nspace}.TestVectors.{name}.json");
+        if (rstream is not null)
+            using (StreamReader streamReader = new(rstream)) {
+                return streamReader.ReadToEnd();
+            }
+        return string.Empty;
     }
 
-    private void VerifyTestVector(TestVectorSet.TestVector testVector) {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "Validate access/conversion")]
+    private static void VerifyTestVector(TestVectorSet.TestVector testVector) {
         // prepare parameters
-        SrpParameters parameters = testVector.CreateParameters();
+        SrpParameters? parameters = testVector.CreateParameters();
         if (parameters == null) {
             // not supported hash function
             Assert.Warn($"Unsupported hash function, skipping: {testVector.H}");
@@ -119,6 +120,7 @@ public class SrpTestVectors {
     }
 
     [Test]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "Validate access/conversion")]
     public void HardcodedVersionOfRfc5054TestVector() {
         // https://www.ietf.org/rfc/rfc5054.txt
         SrpInteger N = SrpInteger.FromHex(@"EEAF0AB9 ADB38DD6 9C33F80A FA8FC5E8 60726187 75FF3C0B 9EA2314C

@@ -1,6 +1,3 @@
-using System;
-using System.Security.Cryptography;
-
 namespace SecureRemotePassword;
 /// <summary>
 /// SRP-6a protocol parameters.
@@ -21,10 +18,10 @@ public class SrpParameters {
     /// <param name="generator">The generator value modulo N (hexadecimal).</param>
     /// <param name="paddedLength">The hexadecimal length of N and g.</param>
     /// <param name="revision">Revision of SRP protocol, defaults to 6a if not provided.</param>
-    public SrpParameters(Func<HashAlgorithm> hashAlgorithmFactory = null, string largeSafePrime = null, string generator = null, int? paddedLength = null, SrpRevision? revision = null) {
+    public SrpParameters(Func<HashAlgorithm>? hashAlgorithmFactory = null, string? largeSafePrime = null, string? generator = null, int? paddedLength = null, SrpRevision? revision = null) {
         Prime = SrpInteger.FromHex(largeSafePrime ?? SrpConstants.SafePrime2048);
         Generator = SrpInteger.FromHex(generator ?? SrpConstants.Generator2048);
-        PaddedLength = paddedLength ?? Prime.HexLength.Value;
+        PaddedLength = paddedLength ?? Prime.HexLength!.Value;
         Hasher = hashAlgorithmFactory != null ? new SrpHash(hashAlgorithmFactory) : new SrpHash<SHA256>();
         Pad = i => i.Pad(PaddedLength);
         Revision = revision ?? SrpRevision.SixA;
@@ -38,7 +35,7 @@ public class SrpParameters {
     /// <param name="generator">The generator value modulo N (hexadecimal).</param>
     /// <param name="paddedLength">The hexadecimal length of N and g.</param>
     /// <param name="revision">Revision of SRP protocol, defaults to 6a if not provided.</param>
-    public static SrpParameters Create<T>(string largeSafePrime = null, string generator = null, int? paddedLength = null, SrpRevision? revision = null)
+    public static SrpParameters Create<T>(string? largeSafePrime = null, string? generator = null, int? paddedLength = null, SrpRevision? revision = null)
         where T : HashAlgorithm {
         SrpParameters result = new()
         {
@@ -47,7 +44,7 @@ public class SrpParameters {
 
         if (largeSafePrime != null) {
             result.Prime = SrpInteger.FromHex(largeSafePrime);
-            result.PaddedLength = result.Prime.HexLength.Value;
+            result.PaddedLength = result.Prime.HexLength!.Value;
         }
 
         if (generator != null) {
@@ -157,16 +154,12 @@ public class SrpParameters {
     /// <summary>
     /// Gets the multiplier parameter: k = H(N, g) in SRP-6a (k = 3 for legacy SRP-6).
     /// </summary>
-    public SrpInteger Multiplier {
-        get {
-            return Revision switch
-            {
-                SrpRevision.Three => new SrpInteger("01"),
-                SrpRevision.Six => new SrpInteger("03"),
-                _ => Hash(Prime, Pad(Generator)),
-            };
-        }
-    }
+    public SrpInteger Multiplier => Revision switch
+    {
+        SrpRevision.Three => new SrpInteger("01"),
+        SrpRevision.Six => new SrpInteger("03"),
+        _ => Hash(Prime, Pad(Generator)),
+    };
 
     /// <inheritdoc/>
     public override string ToString() => $"SrpParameters.Create<{Hasher.AlgorithmName}>(\"{Prime.ToHex()}\", \"{Generator.ToHex()}\")";

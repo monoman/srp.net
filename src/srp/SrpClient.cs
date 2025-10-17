@@ -1,22 +1,18 @@
-using System.Security;
-
 namespace SecureRemotePassword;
+
 /// <summary>
 /// Client-side code of the SRP-6a protocol.
 /// </summary>
-public class SrpClient : ISrpClient {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SrpClient"/> class.
-    /// </summary>
-    /// <param name="parameters">The parameters of the SRP-6a protocol.</param>
-    public SrpClient(SrpParameters parameters = null) {
-        Parameters = parameters ?? new SrpParameters();
-    }
+/// <remarks>
+/// Initializes a new instance of the <see cref="SrpClient"/> class.
+/// </remarks>
+/// <param name="parameters">The parameters of the SRP-6a protocol.</param>
+public class SrpClient(SrpParameters? parameters = null) : ISrpClient {
 
     /// <summary>
     /// Gets or sets the protocol parameters.
     /// </summary>
-    private SrpParameters Parameters { get; set; }
+    private SrpParameters Parameters { get; set; } = parameters ?? new SrpParameters();
 
     /// <summary>
     /// Generates the random salt of the same size as a used hash.

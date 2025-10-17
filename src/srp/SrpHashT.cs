@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-
 namespace SecureRemotePassword;
 /// <summary>
 /// Hashing algorithms for the SRP-6a protocol.

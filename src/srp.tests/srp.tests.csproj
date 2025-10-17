@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0</TargetFrameworks>
     <AssemblyName>srp.tests</AssemblyName>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -10,7 +9,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\srp.snk</AssemblyOriginatorKeyFile>
     <DebugType>full</DebugType>
-    <RootNamespace>SecureRemotePassword.Tests</RootNamespace>
+    <RootNamespace>$(RootNamespace).Tests</RootNamespace>
     <CodeAnalysisRuleSet>..\srp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 

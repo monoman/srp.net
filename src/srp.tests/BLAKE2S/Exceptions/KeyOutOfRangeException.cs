@@ -1,5 +1,3 @@
-using System;
-
 namespace Blake2s.Exceptions; 
 public class KeyOutOfRangeException : ArgumentOutOfRangeException {
     public KeyOutOfRangeException() {

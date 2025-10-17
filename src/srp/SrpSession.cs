@@ -6,10 +6,10 @@ public class SrpSession {
     /// <summary>
     /// Gets or sets the session key.
     /// </summary>
-    public string Key { get; set; }
+    public required string Key { get; set; }
 
     /// <summary>
     /// Gets or sets the session proof.
     /// </summary>
-    public string Proof { get; set; }
+    public required string Proof { get; set; }
 }

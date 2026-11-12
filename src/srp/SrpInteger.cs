@@ -77,9 +77,11 @@ public partial class SrpInteger : IEquatable<SrpInteger> {
 
         RandomNumberGenerator random = RandomNumberGenerator.Create();
         byte[] randomBytes = new byte[bytes];
-        random.GetBytes(randomBytes);
+        do {
+            random.GetBytes(randomBytes);
+        } while (randomBytes.All(static b => b == 0)); // make sure we don't get all zeros
 
-        // make sure random number is positive
+        // make sure random number is strictly positive    
         SrpInteger result = FromByteArray(randomBytes);
         if (result.Value < 0) {
             result.Value = -result.Value;

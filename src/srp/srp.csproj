@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Description>SRP-6a protocol implementation for .NET 9.0+</Description>
+        <Description>SRP-6a protocol implementation for .NET 10.0+</Description>
         <Copyright>Copyright © 2018-2022 Alexey Yakovlev</Copyright>
         <AssemblyTitle>srp</AssemblyTitle>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -35,14 +35,6 @@
         <Using Include="System.Text" />
     </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="System.Globalization" Version="4.3.0" />
-        <PackageReference Include="System.Linq" Version="4.3.0" />
-        <PackageReference Include="System.Runtime" Version="4.3.1" />
-        <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
-        <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
-        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
-    </ItemGroup>
     <Target Name="PublishLocally" AfterTargets="Build" DependsOnTargets="Pack" Condition="Exists('$(NUGET_PACKAGES)')">
         <ItemGroup>
             <NugetPackages Include="$(PackageOutputAbsolutePath)\*$(Version).nupkg" />

@@ -205,3 +205,6 @@ Temporary Items
 .apdisk
 
 artifacts
+# bash generated helper files
+outdated.txt
+updated_nugets.txt

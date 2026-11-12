@@ -1,17 +1,15 @@
 <Project>
   <PropertyGroup>
       <TargetFramework>net9.0</TargetFramework>
-      <Version>1.1.0</Version>
+      <Version>1.1.1</Version>
       <ImplicitUsings>enable</ImplicitUsings>
       <Nullable>enable</Nullable>
       <RootNamespace>SecureRemotePassword</RootNamespace>
       <PackageReleaseNotes>
-          What's new:
-          - Moved to .NET 9
-              + Added build target to 'Publish to Local Nugets Folder' after building library
-              + Code now is Nullable compatible (resolved properly most warnings - forced the hand on some few cases)
-              + Updated tests to newer NUnit assertion syntax
-              + Brought more complete .editorconfig and reformated accordingly          
+          - NuGet packages updated:
+    + Microsoft.NET.Test.Sdk  18.0.0 -> 18.12.0
+    + NUnit                   4.4.0  -> 5.0.0
+    + NUnit3TestAdapter       5.2.0  -> 6.3.1          
       </PackageReleaseNotes>
   </PropertyGroup>
 </Project>

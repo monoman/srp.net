@@ -1,4 +1,5 @@
 namespace System;
+
 using System.Reflection;
 
 #if NETCOREAPP_10

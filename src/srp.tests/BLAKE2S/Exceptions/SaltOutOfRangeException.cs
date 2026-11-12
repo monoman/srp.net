@@ -1,4 +1,5 @@
 namespace Blake2s.Exceptions;
+
 public class SaltOutOfRangeException : ArgumentOutOfRangeException {
     public SaltOutOfRangeException() {
     }
